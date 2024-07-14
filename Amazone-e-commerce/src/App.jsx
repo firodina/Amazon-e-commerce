@@ -1,17 +1,18 @@
+import "./App.css";
+import Header from "./components/Header/Header";
+import Carousel from "./components/Carousel/Carousel";
+import Category from "./components/Category/Category";
 
-import './App.css'
-import Header from './components/Header/Header'
-import  Carousel from './components/Carousel/Carousel'
 
 function App() {
-  
-
   return (
     <>
       <Header />
-      <Carousel/>
+      <Carousel />
+      <Category />
+      
     </>
-  )
+  );
 }
 
-export default App
+export default App;
