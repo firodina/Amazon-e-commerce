@@ -11,7 +11,7 @@ export const categoryobj = [
   },
   {
     title: "men's clothing",
-    name: "Men's clothing",
+    name: "men's clothing",
     imgLink:"https://m.media-amazon.com/images/I/61-XQ9Nfk1L._AC_UL320_.jpg",
   },
   {
