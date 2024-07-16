@@ -37,7 +37,7 @@ function Result() {
           <div className={classes.product_container}>
           {
             results?.map((product) => (
-              <ProductList key={product.id} product={product}/>
+              <ProductList key={product.id} product={product} renderAdd={true} />
             ))
           }
 
