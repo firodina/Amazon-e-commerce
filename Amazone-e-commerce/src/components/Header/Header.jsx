@@ -6,21 +6,21 @@ import classes from "./header.module.css";
 import LowerHeader from "./LowerHeader";
 import { Link } from "react-router-dom";
 import { DataContext } from "../Dataproducer/DataProducer";
+import { auth } from "../../Utility/firebase";
 
 function Header() {
-
-  const [{ basket }, dispatch] = useContext(DataContext)
+  const [{ basket, user }, dispatch] = useContext(DataContext);
   const totalamount = basket?.reduce((amount, item) => {
-    return item.amount + amount
-  },0)
-  
+    return item.amount + amount;
+  }, 0);
+
   return (
     <section className={classes.fixed}>
       <section>
         <div className={classes.header_container}>
           <div className={classes.logo_contaniner}>
             {/* {logo} */}
-            <Link to ="/">
+            <Link to="/">
               <img
                 src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
                 alt=""
@@ -48,23 +48,34 @@ function Header() {
 
           {/* {rigth side link} */}
           <div className={classes.order_contanier}>
-            <Link to ="" className={classes.language}>
+            <Link to="" className={classes.language}>
               <img src="https://img.freepik.com/free-vector/illustration-usa-flag_53876-18165.jpg" />
               <select name="" id="">
                 <option value="">EN</option>
               </select>
             </Link>
-            <Link to ="/auth">
-              <p>Sign In</p>
-              <span>Account&List</span>
+            <Link to={!user && "/auth"}>
+              <div>
+                {user ? (
+                  <>
+                    <p>Hello {user?.email?.split("@")[0]}</p>
+                    <p onClick={() => auth.signOut()}>Sign Out</p>
+                  </>
+                ) : (
+                  <>
+                    <p> Hello Sign In</p>
+                    <span>Account&List</span>
+                  </>
+                )}
+              </div>
             </Link>
             {/* {orders} */}
-            <Link to ="/order">
+            <Link to="/order">
               <p>returns</p>
               <span>&Orders</span>
             </Link>
             {/* {cart} */}
-            <Link to ="/cart" className={classes.cart}>
+            <Link to="/cart" className={classes.cart}>
               <BiCart size={35} />
               <span>{totalamount}</span>
             </Link>

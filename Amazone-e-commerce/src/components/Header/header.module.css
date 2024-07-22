@@ -63,7 +63,8 @@
 .search_contanier svg {
   padding: 11px;
   background: #fcbd63;
-  color: #101010;
+  color:black;
+  box-sizing: content-box;
 }
 .search_contanier svg:hover {
   background: #d49544;
