@@ -55,7 +55,7 @@ function Header() {
               </select>
             </Link>
             <Link to={!user && "/auth"}>
-              <div>
+              <div style={{width:"100px"}}>
                 {user ? (
                   <>
                     <p>Hello {user?.email?.split("@")[0]}</p>

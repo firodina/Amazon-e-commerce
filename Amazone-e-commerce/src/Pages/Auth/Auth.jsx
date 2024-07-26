@@ -1,26 +1,27 @@
 import React, { useState, useContext } from "react";
 import { auth } from "../../Utility/firebase";
 import classes from "./auth.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { DataContext } from "../../components/Dataproducer/DataProducer";
 import { Type } from "../../Utility/action.type";
-import {ClipLoader} from 'react-spinners'
+import { ClipLoader } from "react-spinners";
 
 function Auth() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [error, seterror] = useState("");
-  const navigation =useNavigate()
+  const navigation = useNavigate();
   const [{ user }, dispatch] = useContext(DataContext);
-
+  console.log(user);
   const [loading, setloading] = useState({
     signIn: false,
     signUp: false,
   });
+  const uselocation = useLocation();
 
   const authHandler = async (e) => {
     e.preventDefault();
@@ -34,7 +35,7 @@ function Auth() {
             user: userInfo.user,
           });
           setloading({ ...loading, signIn: false });
-          navigation('/')
+          navigation(uselocation?.state?.redirect || "/");
         })
         .catch((error) => {
           seterror(error.message);
@@ -49,7 +50,7 @@ function Auth() {
             user: userInfo.user,
           });
           setloading({ ...loading, signUp: false });
-          navigation('/')
+          navigation("/");
         })
         .catch((error) => {
           seterror(error.message);
@@ -67,6 +68,18 @@ function Auth() {
       </div>
       <div className={classes.sign_container}>
         <h1>sign in</h1>
+        {uselocation?.state?.message && (
+          <small
+            style={{
+              fontWeight: "bold",
+              color: "red",
+              padding: "5px",
+              textAlign: "center",
+            }}
+          >
+            {uselocation.state.message}
+          </small>
+        )}
         <form action="">
           <div>
             <label htmlFor="email">Email</label>
@@ -91,9 +104,8 @@ function Auth() {
             className={classes.sign_button}
             onClick={authHandler}
             name="signIn"
-          >{
-              loading.signIn ?(<ClipLoader  size={15}/>):("Sign In")
-          }  
+          >
+            {loading.signIn ? <ClipLoader size={15} /> : "Sign In"}
           </button>
         </form>
         <p>
@@ -108,10 +120,11 @@ function Auth() {
           name="signUp"
           onClick={authHandler}
         >
-          {
-              loading.signUp ?(<ClipLoader  size={15}/>):("Create Your Amazon Account")
-          }  
-          
+          {loading.signUp ? (
+            <ClipLoader size={15} />
+          ) : (
+            "Create Your Amazon Account"
+          )}
         </button>
         {error && (
           <small style={{ paddingTop: "5px", color: "red" }}>{error}</small>

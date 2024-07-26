@@ -4,32 +4,30 @@ import { DataContext } from "../../components/Dataproducer/DataProducer";
 import ProductList from "../../components/Product/ProductList";
 import CurrencyFormat from "../../components/CurrencyFormat/CurrencyFormat";
 import { Link } from "react-router-dom";
-import classes from './cart.module.css'
+import classes from "./cart.module.css";
 import { Type } from "../../Utility/action.type";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { RiArrowDropUpLine } from "react-icons/ri";
 
-
-
 function Cart() {
   const [{ basket, user }, dispatch] = useContext(DataContext);
   const total = basket.reduce((amount, item) => {
-    return item.price *item.amount + amount
-  }, 0)
+    return item.price * item.amount + amount;
+  }, 0);
 
   const increment = (item) => {
     dispatch({
       type: Type.ADD_TO_BASKET,
-      item
-    })
-  }
+      item,
+    });
+  };
 
   const decrement = (id) => {
     dispatch({
       type: Type.REMOVE_FROM_BASKET,
-      id
-    })
-  }
+      id,
+    });
+  };
   return (
     <Layout>
       <section className={classes.container}>
@@ -37,29 +35,43 @@ function Cart() {
           <h2>Hello</h2>
           <h3>Your shopping basket</h3>
           <hr></hr>
-          {
-            basket?.length == 0?(<p>Oops ! No item in the cart</p>):(
-              basket?.map((item, index) => {
-                return <section className={classes.cart_proudect}>
-                <ProductList product={item}
-                  renderDesc={true}
-                  flex={true}
-                  renderAdd={false}
-                    key={index} />
-                  
+          {basket?.length == 0 ? (
+            <p>Oops ! No item in the cart</p>
+          ) : (
+            basket?.map((item, index) => {
+              return (
+                <section className={classes.cart_proudect}>
+                  <ProductList
+                    product={item}
+                    renderDesc={true}
+                    flex={true}
+                    renderAdd={false}
+                    key={index}
+                  />
+
                   <div className={classes.btn_contanier}>
-                    <button className={classes.btn} onClick={() => increment(item)}> < RiArrowDropUpLine size={20}/> </button>
+                    <button
+                      className={classes.btn}
+                      onClick={() => increment(item)}
+                    >
+                      {" "}
+                      <RiArrowDropUpLine size={20} />{" "}
+                    </button>
                     <span>{item.amount}</span>
-                    <button className={classes.btn} onClick={() => decrement(item.id)}><RiArrowDropDownLine size={20}/></button>
+                    <button
+                      className={classes.btn}
+                      onClick={() => decrement(item.id)}
+                    >
+                      <RiArrowDropDownLine size={20} />
+                    </button>
                   </div>
-                  </section>
-          })
-            )
-        
-          }
+                </section>
+              );
+            })
+          )}
         </div>
-        
-          {basket?.length !== 0 && (
+
+        {basket?.length !== 0 && (
           <div className={classes.subtotal}>
             <div>
               <p>subtotal ({basket?.length} item) </p>
@@ -70,9 +82,8 @@ function Cart() {
               <small>This order contains a gift</small>
             </span>
             <Link to="/payments">Continue the checkout</Link>
-            </div>
-           )}
-        
+          </div>
+        )}
       </section>
     </Layout>
   );
